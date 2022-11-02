@@ -12,20 +12,21 @@ def petitPas(g, mod, size):
         res.append(pow(g,i,mod))
     return res
 
-def grandPas(g, mod, size):
+def grandPas(g, mod, size, target):
     res = []
     for i in range(size):
-        res.append(57*pow(g, - size * i , mod)%mod)
+        res.append(target*pow(g, - size * i , mod)%mod)
     return res
 
 
-def main(argv):
+def main():
     try:
-        generator = int(argv[0])
-        target = int(argv[1]) 
-        modulus = int(argv[2])         
-    except:
+        generator = int(sys.argv[1])
+        target = int(sys.argv[2]) 
+        modulus = int(sys.argv[3])         
+    except (IndexError, ValueError):
         print("To find x so generator^x=target[modulus]:\nbsgs.py <generator> <target> <modulus> ") 
+        sys.exit(1)
     
     #PAS
     pas_size = pasSize(modulus)
@@ -35,7 +36,7 @@ def main(argv):
     
     petit_pas = petitPas(generator, modulus, pas_size)
     print(f"Petit Pas => {generator}^j: \n\t{petit_pas}\n")
-    grand_pas = grandPas(generator, modulus, pas_size)
+    grand_pas = grandPas(generator, modulus, pas_size, target)
     print(f"Grand Pas => {target}*{generator}^-{pas_size}*i:\n\t{grand_pas}\n")
 
     for i in grand_pas:
@@ -51,4 +52,4 @@ def main(argv):
 
 clear
 if __name__ == "__main__":
-   main(sys.argv[1:])
+   main()
